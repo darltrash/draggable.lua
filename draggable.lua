@@ -1,6 +1,6 @@
 local Draggable = {}
 
-local previous_relative_mode
+local previous_relative_mode = false
 
 local dragging = false
 
