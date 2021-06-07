@@ -1,27 +1,19 @@
 local Draggable = require('draggable')
 
 local handle = {
-  x = 50,
-  y = 100,
   img = love.graphics.newImage('drag_handle.png'),
-  height = 40,
-  width = 200
+  height = 35
 }
 
 local cursor = love.mouse.getSystemCursor('sizeall')
 local hover = false
 
-local function inside_handle(x, y)
-  return x > handle.x and x < handle.x + handle.width
-    and y > handle.y and y < handle.y + handle.height
-end
-
 function love.load()
-  love.graphics.setBackgroundColor(235, 235, 235, 255)
+  love.graphics.setBackgroundColor(1, 1, 1, 1)
 end
 
 function love.mousemoved(x, y, dx, dy)
-  if Draggable.dragging() or inside_handle(x, y) then
+  if Draggable.dragging() or y < handle.height then
     hover = true
     love.mouse.setCursor(cursor)
   else
@@ -33,7 +25,7 @@ function love.mousemoved(x, y, dx, dy)
 end
 
 function love.mousepressed(x, y)
-  if inside_handle(x, y) then
+  if y < handle.height then
     Draggable.start()
   end
 end
@@ -43,15 +35,12 @@ function love.mousereleased()
 end
 
 function love.draw()
-  love.graphics.setColor(210, 210, 210, 255)
-  love.graphics.rectangle('fill', handle.x, handle.y, handle.width, handle.height)
-
-  local color = hover and {255, 100, 100, 255} or {100, 100, 100, 255}
-  love.graphics.setColor(color)
-  love.graphics.rectangle('line', handle.x, handle.y, handle.width, handle.height)
-
-  love.graphics.draw(handle.img, handle.x + 10, handle.y + 12)
-  love.graphics.print('Drag here', handle.x + 30, handle.y + 12)
+  local w, h = love.graphics.getDimensions()
+  love.graphics.setColor(0, 0, 0, 0.2)
+  love.graphics.rectangle("fill", 0, 0, w, handle.height)
+  love.graphics.setColor(0, 0, 0, 1.)
+  love.graphics.draw(handle.img, 10, 10)
+  love.graphics.print('Hi! Drag me up!', 30, 9)
 end
 
 function love.keypressed(key)
